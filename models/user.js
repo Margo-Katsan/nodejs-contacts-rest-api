@@ -5,6 +5,9 @@ const { handleMongooseError } = require("../helpers");
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema({
+  name: {
+    type: String,
+  },
   email: {
     type: String,
     match: emailRegex,
@@ -41,6 +44,7 @@ const userSchema = new Schema({
 userSchema.post('save', handleMongooseError)
 
 const registerSchema = Joi.object({
+  name: Joi.string(),
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().min(6).required(),
   subscription: Joi.string().valid('starter', 'pro', 'business').default('starter')
